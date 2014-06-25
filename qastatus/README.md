@@ -30,8 +30,8 @@ How it works
 
 Screenshots
 ===========
-![alt tag](https://raw2.github.com/nastya-kuz/akuznetsova/qastatus/master/screenshots/qastatus_main_page.png)
-![alt tag](https://raw2.github.com/nastya-kuz/akuznetsova/qastatus/master/screenshots/qastatus_project_overview.png)
-![alt tag](https://raw2.github.com/nastya-kuz/akuznetsova/qastatus/master/screenshots/qastatus_newbugs_page.png)
-![alt tag](https://raw2.github.com/nastya-kuz/akuznetsova/qastatus/master/screenshots/qastatus_bugtrend.png)
+![alt tag](https://github.com/nastya-kuz/akuznetsova/blob/master/qastatus/screenshots/qastatus_main_page.png)
+![alt tag](https://github.com/nastya-kuz/akuznetsova/master/qastatus/screenshots/qastatus_bugtrend.png)
+![alt tag](https://github.com/nastya-kuz/akuznetsova/master/qastatus/screenshots/qastatus_newbugs_page.png)
+![alt tag](https://github.com/nastya-kuz/akuznetsova/master/qastatus/screenshots/qastatus_bugtrend.png)
 

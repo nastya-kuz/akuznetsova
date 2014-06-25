@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<script>
+var customer_found = false;
+var pathname = window.location.pathname;
+
+function show_list_of_bugs(tags) {
+    $.get(pathname + "/bug_list", {'tags': tags},
+      function(data) {
+         $("#result").html(data);
+      });
+}
+show_list_of_bugs();
+
+<!--When user click on 'Only customer-found' checkbox, -->
+<!--we request list of ids for bugs with such tag.-->
+
+$( "#tagged" ).change(function() {
+    customer_found = $("#tagged").is(':checked');
+    if (customer_found) {
+        show_list_of_bugs('customer-found');
+    } else {
+        show_list_of_bugs();
+    }
+});
+
+</script>
+
+<div id="result">
+
+{% endblock %}

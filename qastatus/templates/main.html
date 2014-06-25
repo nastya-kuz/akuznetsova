@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<h1 class="page-header">Mirantis Projects QA Status Report</h1>
+
+<div class="main_info">
+  This service allows to get information about current QA status of projects:
+    main information, bugs' statistic.<br>
+  Just select interest project.
+
+</div>
+
+
+<style>
+   ul li{
+      list-style-image: url(https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678121-cloud-sync-20.png)
+   }
+</style>
+
+<ul>
+  <li><p><a href="project/fuel">Fuel</a></p></li>
+  <li><p><a href="project/murano">Murano</a></p></li>
+  <li><p><a href="project/mistral">Mistral</a></p></li>
+  <li><p><a href="project/sahara">Sahara</a></p></li>
+  <li><p><a href="project/ceilometer">Ceilometer</a></p></li>
+</ul>
+
+
+
+{% endblock %}

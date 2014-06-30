@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<h1 class="page-header">Mirantis Projects QA Status Report</h1>
+
+<div class="main_info">
+  This service allows to get information about current QA status of projects:
+    main information, bugs' statistic.<br>
+  Just select interest project.<br><br>
+
+</div>
+
+
+<table class="bugs">
+    <thead>
+          <tr>
+              <th>Project</th>
+              <th>Total Critical Bugs</th>
+              <th>Total Unresolved Bugs</th>
+              <th>Total Number of Bugs</th>
+          </tr>
+        </thead>
+
+    {% for p in ("Fuel", "MOS", "Murano", "Mistral", "Sahara", "Ceilometer") %}
+    <tr>
+        <td><p><a href="project/{{p}}">{{p}}</a></p></td>
+        <td>{{ statistic[p]["critical"] }}</td>
+        <td>{{ statistic[p]["total_unresolved"] }}</td>
+        <td>{{ statistic[p]["total"] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

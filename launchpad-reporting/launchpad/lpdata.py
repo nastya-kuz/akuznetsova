@@ -76,7 +76,6 @@ class LaunchpadData():
 
         launchpad_bugs = project.searchTasks(importance=["Critical",],
                                              status=["New",
-                                                     "Fix Committed",
                                                      "Confirmed",
                                                      "Triaged",
                                                      "In Progress",

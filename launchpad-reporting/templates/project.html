@@ -97,7 +97,7 @@
         <tr {%if critical != "0" %}class="critical-bugs"{% endif %}>
             <td> Total Critical Bugs</td>
             <td>{{ critical }}</td>
-            <td><a href="https://bugs.launchpad.net/{{ project.name }}/?field.searchtext=&orderby=-importance&search=Search&field.status%3Alist=NEW&field.status%3Alist=CONFIRMED&field.status%3Alist=TRIAGED&field.status%3Alist=INPROGRESS&field.status%3Alist=FIXCOMMITTED&field.importance%3Alist=CRITICAL"><i>link</i></a></p></td>
+            <td><a href="https://bugs.launchpad.net/{{ project.name }}/?field.searchtext=&orderby=-importance&search=Search&field.status%3Alist=NEW&field.status%3Alist=CONFIRMED&field.status%3Alist=TRIAGED&field.status%3Alist=INPROGRESS&field.importance%3Alist=CRITICAL"><i>link</i></a></p></td>
         </tr>
         {% if display_subprojects == False %}
         <tr>
@@ -127,7 +127,7 @@
         <li><p><a href="/project/{{ project.name }}/heat">Heat</a></p></li>
         <li><p><a href="/project/{{ project.name }}/glance">Glance</a></p></li>
         <li><p><a href="/project/{{ project.name }}/horizon">Horizon</a></p></li>
-        <li><p><a href="/project/{{ project.name }}/ceilometer">Cinder</a></p></li>
+        <li><p><a href="/project/{{ project.name }}/ceilometer">Ceilometer</a></p></li>
     </ul>
 </div>
 

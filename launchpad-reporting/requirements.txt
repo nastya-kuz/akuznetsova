@@ -2,3 +2,4 @@ flask
 requests
 launchpadlib
 pytz
+pymongo

@@ -1,4 +1,4 @@
-#!/home/launchpad-reporting/env/bin/python
+#!/home/akuznetsova/QAStatus/launchpad-reporting/env/bin/python
 
 # -*- coding: utf-8 -*-
 import re

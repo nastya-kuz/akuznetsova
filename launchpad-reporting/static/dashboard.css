@@ -145,16 +145,9 @@ tr.critical-bugs {
   color: red !important
 }
 
-/*
- * Logos
- */
-img {
+
+.add {
   position: absolute;
-  top: 40px;
-  left: 1250px;
-}
+  padding-top: 50px;
 
-.mos_projects {
-
-  margin-left: -20px;
 }

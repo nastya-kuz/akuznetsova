@@ -21,14 +21,21 @@
           </tr>
         </thead>
 
-    {% for p in ("Fuel", "MOS", "Murano", "Mistral", "Sahara", "Ceilometer") %}
+
+    {% for p in ("FUEL", "MOS", "Murano", "Mistral", "Sahara", "Ceilometer") %}
     <tr>
         <td><p><a href="project/{{p}}">{{p}}</a></p></td>
         <td>{{ statistic[p]["critical"] }}</td>
-        <td>{{ statistic[p]["total_unresolved"] }}</td>
+        <td>{{ statistic[p]["unresolved"] }}</td>
         <td>{{ statistic[p]["total"] }}</td>
     </tr>
     {% endfor %}
 </table>
+
+<div class="add">
+    <form action="/add_project">
+        <button style="display:none;"><img src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678121-cloud-sync-64.png" alt="Add project"> ADD PROJECT </button></p>
+    </form>
+</div>
 
 {% endblock %}

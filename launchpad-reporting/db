@@ -1,0 +1,57 @@
+import pymongo
+from launchpad.lpdata import LaunchpadData
+
+lpdata = LaunchpadData()
+connection = pymongo.Connection()
+db = connection["bugs"]
+
+main_tab = db.main_page
+project_tab = db.project_page
+subproject_tab = db.subproject_page
+
+
+main_project_statistic = dict.fromkeys(["FUEL", "MOS", "Murano", "Mistral", "Sahara", "Ceilometer"])
+
+for pr in ("FUEL", "MOS", "Murano", "Mistral", "Sahara", "Ceilometer"):
+    main_project_statistic["{0}".format(pr)] = lpdata.total_number_bugs(pr, None)
+
+subproject_statistic = dict.fromkeys(["FUEL", "MOS", "Murano", "Mistral", "Sahara", "Ceilometer"])
+
+for pr in ("FUEL", "MOS"):
+    for subpr in ("murano", "sahara", "nova", "neutron", "keystone", "heat", "glance", "horizon", "ceilometer"):
+        tag = ["{0}".format(subpr), ]
+        name = "{0}_{1}".format(pr.lower(), subpr.lower())
+        subproject_statistic["{0}".format(name)] = lpdata.total_number_bugs(pr, tag)
+
+
+db.drop_collection('main_tab')
+db.drop_collection('project_tab')
+db.drop_collection('subproject_tab')
+
+for pr in ("FUEL", "MOS", "Murano", "Mistral", "Sahara", "Ceilometer"):
+    db.main_tab.insert({"Project": pr,
+                    "critical": main_project_statistic["{0}".format(pr)]["critical"],
+                    "unresolved": main_project_statistic["{0}".format(pr)]["total_unresolved"],
+                    "total": main_project_statistic["{0}".format(pr)]["total"]})
+
+    db.project_tab.insert({"Project": pr.lower(),
+                    "new_for_week": main_project_statistic["{0}".format(pr)]["new_for_week"],
+                    "fixed_for_week": main_project_statistic["{0}".format(pr)]["fixed_for_week"],
+                    "new_for_month": main_project_statistic["{0}".format(pr)]["new_for_month"],
+                    "fixed_for_month": main_project_statistic["{0}".format(pr)]["fixed_for_month"],
+                    "critical": main_project_statistic["{0}".format(pr)]["critical"],
+                    "unresolved": main_project_statistic["{0}".format(pr)]["total_unresolved"],
+                    "total": main_project_statistic["{0}".format(pr)]["total"]})
+
+
+for pr in ("FUEL", "MOS"):
+    for subpr in ("murano", "sahara", "nova", "neutron", "keystone", "heat", "glance", "horizon", "ceilometer"):
+        name = "{0}_{1}".format(pr.lower(), subpr.lower())
+        db.subproject_tab.insert({"Project": name,
+                                  "new_for_week": subproject_statistic["{0}".format(name)]["new_for_week"],
+                                  "fixed_for_week": subproject_statistic["{0}".format(name)]["fixed_for_week"],
+                                  "new_for_month": subproject_statistic["{0}".format(name)]["new_for_month"],
+                                  "fixed_for_month": subproject_statistic["{0}".format(name)]["fixed_for_month"],
+                                  "critical": subproject_statistic["{0}".format(name)]["critical"],
+                                  "total": subproject_statistic["{0}".format(name)]["total"]})
+

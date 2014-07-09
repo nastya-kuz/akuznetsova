@@ -97,8 +97,12 @@
         <tr {%if critical != "0" %}class="critical-bugs"{% endif %}>
             <td> Total Critical Bugs</td>
             <td>{{ critical }}</td>
-            <td><a href="https://bugs.launchpad.net/{{ project.name }}/?field.searchtext=&orderby=-importance&search=Search&field.status%3Alist=NEW&field.status%3Alist=CONFIRMED&field.status%3Alist=TRIAGED&field.status%3Alist=INPROGRESS&field.importance%3Alist=CRITICAL"><i>link</i></a></p></td>
-        </tr>
+            {% if tag  %}
+              <td><a href="https://bugs.launchpad.net/{{ project.name }}/?field.searchtext=&orderby=-importance&search=Search&field.status%3Alist=NEW&field.status%3Alist=CONFIRMED&field.status%3Alist=TRIAGED&field.status%3Alist=INPROGRESS&field.importance%3Alist=CRITICAL&field.tag={{ tag }}"><i>link</i></a></p></td>
+              {% else %}
+              <td><a href="https://bugs.launchpad.net/{{ project.name }}/?field.searchtext=&orderby=-importance&search=Search&field.status%3Alist=NEW&field.status%3Alist=CONFIRMED&field.status%3Alist=TRIAGED&field.status%3Alist=INPROGRESS&field.importance%3Alist=CRITICAL"><i>link</i></a></p></td>
+            {% endif %}
+             </tr>
         {% if display_subprojects == False %}
         <tr>
             <td>Total Unresolved Bugs</td>
@@ -109,7 +113,12 @@
         <tr>
             <td>Total Bugs</td>
             <td>{{ total }}</td>
-            <td><a href="https://bugs.launchpad.net/{{ project.name }}"><i>link</i></a></td>
+            {% if tag  %}
+              <td><a href="https://bugs.launchpad.net/{{ project.name }}/+bugs?field.tag={{ tag }}"><i>link</i></a></td>
+              {% else %}
+              <td><a href="https://bugs.launchpad.net/{{ project.name }}"><i>link</i></a></td>
+            {% endif %}
+
         </tr>
     </table>
 </div>

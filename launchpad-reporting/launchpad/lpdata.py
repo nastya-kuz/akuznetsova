@@ -89,7 +89,8 @@ class LaunchpadData():
                                                      "Confirmed",
                                                      "Triaged",
                                                      "In Progress",
-                                                     "Incomplete"])
+                                                     "Incomplete"],
+                                             tags=tag)
 
         statistic['total_unresolved'] = str(len(launchpad_bugs))
         launchpad_bugs = project.searchTasks(status=["New",

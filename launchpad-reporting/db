@@ -55,3 +55,7 @@ for pr in ("FUEL", "MOS"):
                                   "critical": subproject_statistic["{0}".format(name)]["critical"],
                                   "total": subproject_statistic["{0}".format(name)]["total"]})
 
+
+
+for i in db.subproject_tab.find():
+    print i

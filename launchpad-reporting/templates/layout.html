@@ -33,13 +33,10 @@
 
           <a class="navbar-brand" href="/">Mirantis Projects QA Status</a>
           <a class="navbar-brand" href="/"></a>
-          <a class="navbar-brand" href="/project/fuel">FUEL</a>
-          <a class="navbar-brand" href="/project/mos">MOS</a>
-          <a class="navbar-brand" href="/project/murano">Murano</a>
-          <a class="navbar-brand" href="/project/mistral">Mistral</a>
-          <a class="navbar-brand" href="/project/sahara">Sahara</a>
-          <a class="navbar-brand" href="/project/ceilometer">Ceilometer</a>
-
+          <a class="navbar-brand" href="/project/fuelplusmos">FUEL+MOS</a>
+          {% for p in prs %}
+             <a class="navbar-brand" href="/project/{{ p }}">{{ p }}</a>
+          {% endfor %}
         </div>
       </div>
     </div>

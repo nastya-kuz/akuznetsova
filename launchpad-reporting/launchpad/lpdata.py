@@ -1,5 +1,6 @@
 from datetime import date
 from dateutil import relativedelta, parser
+import pymongo
 
 
 from launchpadlib.launchpad import Launchpad
@@ -7,28 +8,35 @@ from bug import Bug
 from project import Project
 from ttl_cache import ttl_cache
 
+connection = pymongo.Connection()
+db = connection["bugs"]
 
 class LaunchpadData():
 
     BUG_STATUSES = {"New":        ["New"],
                     "Incomplete": ["Incomplete"],
                     "Open":       ["Triaged", "In Progress", "Confirmed"],
-                    "Closed":     ["Fix Committed", "Fix Released", "Won't Fix", "Invalid", "Expired", "Opinion"]}
-
+                    "Closed":     ["Fix Committed", "Fix Released", "Won't Fix",
+                                   "Invalid", "Expired", "Opinion"],
+                    "All":        ["New", "Incomplete", "Invalid", "Won't Fix",
+                                   "Confirmed", "Triaged", "In Progress",
+                                   "Fix Released", "Fix Committed"]}
     BUG_STATUSES_ALL = []
     for k in BUG_STATUSES:
         BUG_STATUSES_ALL.append(BUG_STATUSES[k])
 
     def __init__(self):
         cachedir = "~/.launchpadlib/cache/"
-        self.launchpad = Launchpad.login_anonymously('launchpad-reporting-www', 'production', cachedir)
+        self.launchpad = Launchpad.login_anonymously(
+            'launchpad-reporting-www', 'production', cachedir)
 
     def _get_project(self, project_name):
         return self.launchpad.projects[project_name]
 
     def _get_milestone(self, project_name, milestone_name):
         project = self._get_project(project_name)
-        return self.launchpad.load("%s/+milestone/%s" % (project.self_link, milestone_name))
+        return self.launchpad.load(
+            "%s/+milestone/%s" % (project.self_link, milestone_name))
 
     @ttl_cache(minutes=5)
     def get_project(self, project_name):
@@ -123,3 +131,52 @@ class LaunchpadData():
         statistic['new_for_month'] = created_on_the_last_month
         statistic['fixed_for_month'] = fixed_on_the_last_month
         return statistic
+
+    def common_milestone(self, pr_a, pr_b):
+        return list(set(pr_a) & set(pr_b))
+
+    def count_bugs_by_milestone(self, project_name, tag, milestone):
+
+        statistic = {"done": "",
+                     "total": "",
+                     "high": ""}
+
+        project = self._get_project(project_name)
+        bugs = project.searchTasks(status=self.BUG_STATUSES["Closed"],
+                                   tags=tag,
+                                   milestone=milestone)
+        statistic["done"] = str(len(bugs))
+
+        bugs = project.searchTasks(status=self.BUG_STATUSES["All"],
+                                   importance=["Critical", "High"],
+                                   tags=tag,
+                                   milestone=milestone)
+
+        statistic["high"] = str(len(bugs))
+
+        bugs = project.searchTasks(status=self.BUG_STATUSES["All"],
+                                   tags=tag,
+                                   milestone=milestone)
+        statistic["total"] = str(len(bugs))
+
+        return statistic
+
+    def statistic_by_milestone(self, milestone):
+        fuel = []
+        mos = []
+        for pr in db.milestone_tab.find({},{ 'Subproject':1, 'high':1, 'total':1, 'done':1 }).\
+            where('this.Milestone == "{0}" & this.Project == "fuel"'.format(milestone)):
+            fuel.append(pr)
+        for pr in db.milestone_tab.find({},{ 'Subproject':1, 'high':1, 'total':1, 'done':1 }).\
+            where('this.Milestone == "{0}" & this.Project == "mos"'.format(milestone)):
+            mos.append(pr)
+
+        k = {}
+        for i in mos:
+            k[i['Subproject']] = {}
+            k[i['Subproject']]["mos"] = i
+
+        for i in fuel:
+            k[i['Subproject']]["fuel"] = i
+
+        return k

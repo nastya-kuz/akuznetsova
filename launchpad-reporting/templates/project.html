@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
 
-<h1 class="page-header">Project "{{ project.display_name }}" : QA Status</h1>
+<h1 class="page-header"><br>Project "{{ project.display_name }}" : QA Status</h1>
 <div class="col-sm-3 col-md-2 sidebar">
     <ul class="nav nav-sidebar">
         <li {% if selected_bug_table and bug_type == 'New' %}class="active"{% endif %}>
@@ -128,15 +128,9 @@
 {% if display_subprojects or project.name in ("mos", "fuel") %}
 <div id="rightcol" >
     <ul>
-        <li><p><a href="/project/{{ project.name }}/murano">Murano</a></p></li>
-        <li><p><a href="/project/{{ project.name }}/sahara">Sahara</a></p></li>
-        <li><p><a href="/project/{{ project.name }}/nova">Nova</a></p></li>
-        <li><p><a href="/project/{{ project.name }}/neutron">Neutron</a></p></li>
-        <li><p><a href="/project/{{ project.name }}/keystone">Keystone</a></p></li>
-        <li><p><a href="/project/{{ project.name }}/heat">Heat</a></p></li>
-        <li><p><a href="/project/{{ project.name }}/glance">Glance</a></p></li>
-        <li><p><a href="/project/{{ project.name }}/horizon">Horizon</a></p></li>
-        <li><p><a href="/project/{{ project.name }}/ceilometer">Ceilometer</a></p></li>
+        {% for s in subprs %}
+             <li><p><a href="/project/{{ project.name }}/{{ s }}">{{ s }}</a></p></li>
+        {% endfor %}
     </ul>
 </div>
 

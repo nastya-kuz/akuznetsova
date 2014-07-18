@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
 
-<h1 class="page-header">Mirantis Projects QA Status Report</h1>
+<h1 class="page-header"><br>Mirantis Projects QA Status Report</h1>
 
 <div class="main_info">
   This service allows to get information about current QA status of projects:
@@ -9,7 +9,6 @@
   Just select interest project.<br><br>
 
 </div>
-
 
 <table class="bugs">
     <thead>
@@ -22,7 +21,7 @@
         </thead>
 
 
-    {% for p in ("FUEL", "MOS", "Murano", "Mistral", "Sahara", "Ceilometer") %}
+    {% for p in prs %}
     <tr>
         <td><p><a href="project/{{p}}">{{p}}</a></p></td>
         <td>{{ statistic[p]["critical"] }}</td>

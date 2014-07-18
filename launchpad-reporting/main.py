@@ -14,6 +14,21 @@ db = connection["bugs"]
 main_tab = db.main_page
 project_tab = db.project_page
 
+prs = db.projects.find_one()["Project"]
+subprs = db.subprojects.find_one()["Subproject"]
+
+fuel_milestone_id = {"4_1_2": "66156",
+                    "5_0_1": "65813",
+                    "5_0_2": "66454",
+                    "5_1": "63962",
+                    "6_0": "66011"}
+
+mos_milestone_id = {"4_1_2": "66304",
+                    "5_0_1": "66305",
+                    "5_0_2": "66616",
+                    "5_1": "66306",
+                    "6_0": "66307"}
+
 @app.route('/project/<project_name>/bug_table_for_status/<bug_type>/<milestone_name>/bug_list')
 def bug_list(project_name, bug_type, milestone_name):
     project = lpdata.get_project(project_name)
@@ -21,7 +36,7 @@ def bug_list(project_name, bug_type, milestone_name):
     if 'tags' in flask.request.args:
         tags = flask.request.args['tags'].split(',')
     bugs = lpdata.get_bugs(project_name, LaunchpadData.BUG_STATUSES[bug_type], milestone_name, tags)
-    return flask.render_template("bug_list.html", project=project, bugs=bugs, bug_type=bug_type, milestone_name=milestone_name, selected_bug_table=True)
+    return flask.render_template("bug_list.html", project=project, bugs=bugs, bug_type=bug_type, milestone_name=milestone_name, selected_bug_table=True, prs=list(prs))
 
 @app.route('/project/<project_name>/api/release_chart_trends/<milestone_name>/get_data')
 def bug_report_trends_data(project_name, milestone_name):
@@ -36,15 +51,32 @@ def bug_report_get_incoming_outgoing_data(project_name, milestone_name):
 @app.route('/project/<project_name>/bug_table_for_status/<bug_type>/<milestone_name>')
 def bug_table_for_status(project_name, bug_type, milestone_name):
     project = lpdata.get_project(project_name)
-    return flask.render_template("bug_table.html", project=project)
+    return flask.render_template("bug_table.html", project=project, prs=list(prs))
 
 @app.route('/project/<project_name>/bug_trends/<milestone_name>')
 def bug_trends(project_name, milestone_name):
     project = lpdata.get_project(project_name)
-    return flask.render_template("bug_trends.html", project=project, milestone_name=milestone_name, selected_bug_trends=True)
+    return flask.render_template("bug_trends.html", project=project, milestone_name=milestone_name, selected_bug_trends=True, prs=list(prs))
+
 
 @app.route('/project/<project_name>')
 def project_overview(project_name):
+
+    if project_name == "fuelplusmos":
+        milestones = db.milestones.find_one()["Milestone"]
+
+        k = lpdata.statistic_by_milestone("5_1")
+
+        return flask.render_template("project_fuelmos.html",
+                                     milestones=milestones,
+                                     current_milestone='5.1',
+                                     prs=list(prs),
+                                     subprs=list(subprs),
+                                     items=k,
+                                     fuel_milestone_id=fuel_milestone_id["5_1"],
+                                     mos_milestone_id=mos_milestone_id["5_1"]
+                                     )
+
     display = False
     project = lpdata.get_project(project_name)
     if project_name in ("mos", "fuel"):
@@ -60,10 +92,28 @@ def project_overview(project_name):
                                  fixed_for_month=db.project_tab.find_one({"Project": project_name.lower()})['fixed_for_month'],
                                  total_unresolved=db.project_tab.find_one({"Project": project_name.lower()})['unresolved'],
                                  selected_overview=True,
-                                 display_subprojects = display)
+                                 display_subprojects=display,
+                                 prs=list(prs),
+                                 subprs=list(subprs))
 
 @app.route('/project/<global_project_name>/<project_name>')
 def mos_project_overview(global_project_name, project_name):
+    if global_project_name == "fuelplusmos":
+        milestones = db.milestones.find_one()["Milestone"]
+
+        m = project_name.replace('.', '_')
+        k = lpdata.statistic_by_milestone(m)
+
+        return flask.render_template("project_fuelmos.html",
+                                     milestones=milestones,
+                                     current_milestone=project_name,
+                                     prs=list(prs),
+                                     subprs=list(subprs),
+                                     db=db.milestone_tab.find(),
+                                     items=k,
+                                     fuel_milestone_id=fuel_milestone_id["{0}".format(m)],
+                                     mos_milestone_id=mos_milestone_id["{0}".format(m)])
+
     project = lpdata.get_project(global_project_name)
     name = "{0}_{1}".format(global_project_name.lower(), project_name.lower())
     return flask.render_template("project.html",
@@ -76,7 +126,9 @@ def mos_project_overview(global_project_name, project_name):
                                  new_for_month=db.subproject_tab.find_one({"Project": name})['new_for_month'],
                                  fixed_for_month=db.subproject_tab.find_one({"Project": name})['fixed_for_month'],
                                  selected_overview=True,
-                                 display_subprojects = True)
+                                 display_subprojects=True,
+                                 prs=list(prs),
+                                 subprs=list(subprs))
 
 @app.route('/add_project')
 def add_page():
@@ -84,7 +136,7 @@ def add_page():
 
 @app.route('/')
 def main_page():
-    global_statistic = dict.fromkeys(["FUEL", "MOS", "Murano", "Mistral", "Sahara", "Ceilometer"])
+    global_statistic = dict.fromkeys(prs)
     for pr in global_statistic.keys()[:]:
         types = dict.fromkeys(["total", "critical", "unresolved"])
         types["total"] = db.main_tab.find_one({"Project": pr})["total"]
@@ -92,7 +144,7 @@ def main_page():
         types["unresolved"] = db.main_tab.find_one({"Project": pr})["unresolved"]
         global_statistic['{0}'.format(pr)] = types
 
-    return flask.render_template("main.html", statistic=global_statistic)
+    return flask.render_template("main.html", statistic=global_statistic, prs = list(prs))
 
 if __name__ == "__main__":
     app.run(host = "0.0.0.0", port = 4444, threaded = True, debug = True)

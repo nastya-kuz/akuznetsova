@@ -20,7 +20,9 @@ class LaunchpadData():
                                    "Invalid", "Expired", "Opinion"],
                     "All":        ["New", "Incomplete", "Invalid", "Won't Fix",
                                    "Confirmed", "Triaged", "In Progress",
-                                   "Fix Released", "Fix Committed"]}
+                                   "Fix Released", "Fix Committed"],
+                    "NotDone":    ["New", "Incomplete", "Invalid", "Won't Fix",
+                                   "Confirmed", "Triaged", "In Progress"]}
     BUG_STATUSES_ALL = []
     for k in BUG_STATUSES:
         BUG_STATUSES_ALL.append(BUG_STATUSES[k])
@@ -147,7 +149,7 @@ class LaunchpadData():
                                    milestone=milestone)
         statistic["done"] = str(len(bugs))
 
-        bugs = project.searchTasks(status=self.BUG_STATUSES["All"],
+        bugs = project.searchTasks(status=self.BUG_STATUSES["NotDone"],
                                    importance=["Critical", "High"],
                                    tags=tag,
                                    milestone=milestone)
@@ -157,6 +159,7 @@ class LaunchpadData():
         bugs = project.searchTasks(status=self.BUG_STATUSES["All"],
                                    tags=tag,
                                    milestone=milestone)
+
         statistic["total"] = str(len(bugs))
 
         return statistic
@@ -164,12 +167,16 @@ class LaunchpadData():
     def statistic_by_milestone(self, milestone):
         fuel = []
         mos = []
+        fuel_mos = []
         for pr in db.milestone_tab.find({},{ 'Subproject':1, 'high':1, 'total':1, 'done':1 }).\
             where('this.Milestone == "{0}" & this.Project == "fuel"'.format(milestone)):
             fuel.append(pr)
         for pr in db.milestone_tab.find({},{ 'Subproject':1, 'high':1, 'total':1, 'done':1 }).\
             where('this.Milestone == "{0}" & this.Project == "mos"'.format(milestone)):
             mos.append(pr)
+        for  pr in db.fuel_plus_mos_statistic.find({},{ 'Subproject':1, 'total':1, 'done':1 }).\
+            where('this.Milestone == "{0}"'.format(milestone)):
+            fuel_mos.append(pr)
 
         k = {}
         for i in mos:
@@ -179,4 +186,50 @@ class LaunchpadData():
         for i in fuel:
             k[i['Subproject']]["fuel"] = i
 
+        for i in fuel_mos:
+            k[i['Subproject']]["fuel_mos"] = i
+
         return k
+
+    def summary_by_milestone(self, k):
+        sum = {"fuel_done": 0,
+               "fuel_high": 0,
+               "fuel_total": 0,
+               "mos_done": 0,
+               "mos_high": 0,
+               "mos_total": 0,
+               "fuel_mos_done": 0,
+               "fuel_mos_total": 0}
+
+        for pr in k:
+            sum["fuel_total"] += int(k[pr]["fuel"]["total"])
+            sum["fuel_high"] += int(k[pr]["fuel"]["high"])
+            sum["fuel_done"] += int(k[pr]["fuel"]["done"])
+            sum["mos_total"] += int(k[pr]["mos"]["total"])
+            sum["mos_high"] += int(k[pr]["mos"]["high"])
+            sum["mos_done"] += int(k[pr]["mos"]["done"])
+            sum["fuel_mos_done"] += int(k[pr]["fuel_mos"]["done"])
+            sum["fuel_mos_total"] += int(k[pr]["fuel_mos"]["total"])
+
+        return sum
+
+    def bugs_ids(self, tag, milestone):
+        sum_without_duplicity = {"done": "",
+                                "total": "",
+                                "high": ""}
+
+        def count(milestone, tag, bug_type):
+            bugs_fuel = self.get_bugs("fuel", self.BUG_STATUSES[bug_type], milestone, tag)
+            bugs_mos = self.get_bugs("mos", self.BUG_STATUSES[bug_type], milestone, tag)
+            ids = []
+            for bug in bugs_fuel:
+                ids.append(bug.id)
+            for bug in bugs_mos:
+                ids.append(bug.id)
+
+            return len(list(set(ids)))
+
+        sum_without_duplicity["done"] = count(milestone, tag, "Closed")
+        sum_without_duplicity["total"] = count(milestone, tag, "All")
+
+        return sum_without_duplicity

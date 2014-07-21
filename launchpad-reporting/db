@@ -16,6 +16,7 @@ main_tab = db.main_page
 project_tab = db.project_page
 subproject_tab = db.subproject_page
 milestone_tab = db.milestone_page
+fuel_plus_mos_statistic = db.fuel_plus_mos_statistic
 
 # Milestones
 db.drop_collection('milestones')
@@ -37,7 +38,7 @@ subprojects_list = ["murano", "sahara", "nova", "neutron", "keystone", "heat",
 db.projects.insert({"Project": projects_list})
 db.subprojects.insert({"Subproject": subprojects_list})
 
-"""
+
 # Collect Main page statistic
 main_project_statistic = dict.fromkeys(projects_list)
 
@@ -53,7 +54,7 @@ for pr in ("FUEL", "MOS"):
         name = "{0}_{1}".format(pr.lower(), subpr.lower())
         subproject_statistic["{0}".format(name)] = \
             lpdata.total_number_bugs(pr, tag)
-"""
+
 
 # Collect milestone statistic
 
@@ -75,9 +76,23 @@ for pr in ("fuel", "mos"):
             milestone_statistic["{0}".format(pr)]["{0}".format(str(m))]["{0}".format(subpr)]["total"] = stat["total"]
             milestone_statistic["{0}".format(pr)]["{0}".format(str(m))]["{0}".format(subpr)]["high"] = stat["high"]
 
+# Collect FUEL+MOS statistic by milestone
+
+fuel_plus_mos = dict.fromkeys(milestones_list)
+for m in milestones_list:
+    fuel_plus_mos["{0}".format(str(m))] = dict.fromkeys(subprojects_list)
+    for subpr in subprojects_list:
+        fuel_plus_mos["{0}".format(str(m))]["{0}".format(subpr)] = dict.fromkeys(["done", "total", "high"])
+
+for m in milestones_list:
+    for subpr in subprojects_list:
+        tag = ["{0}".format(subpr)]
+        summary = lpdata.bugs_ids(tag, m)
+        fuel_plus_mos["{0}".format(str(m))]["{0}".format(subpr)]["done"] = summary["done"]
+        fuel_plus_mos["{0}".format(str(m))]["{0}".format(subpr)]["total"] = summary["total"]
 
 
-"""
+
 db.drop_collection('main_tab')
 db.drop_collection('project_tab')
 db.drop_collection('subproject_tab')
@@ -112,15 +127,13 @@ for pr in ("FUEL", "MOS"):
              "critical": subproject_statistic["{0}".format(name)]["critical"],
              "total": subproject_statistic["{0}".format(name)]["total"]})
 
-"""
+
 # Statistic by milestone in FUEL and MOS
 db.drop_collection('milestone_tab')
 
 for m in milestones_list:
     for pr in ("fuel", "mos"):
         for subpr in subprojects_list:
-            tag = ["{0}".format(subpr), ]
-            milestone = "/{0}/+milestone/{1}".format(pr, m)
             db.milestone_tab.insert(
                 {"Project" : "{0}".format(pr),
                 "Milestone": "{0}".format(str(m).replace('.', '_')),
@@ -129,5 +142,13 @@ for m in milestones_list:
                 "total": milestone_statistic["{0}".format(pr)]["{0}".format(str(m))]["{0}".format(subpr)]["total"],
                 "high": milestone_statistic["{0}".format(pr)]["{0}".format(str(m))]["{0}".format(subpr)]["high"]})
 
-for i in db.milestone_tab.find():
-    print i
+
+db.drop_collection(fuel_plus_mos_statistic)
+for m in milestones_list:
+    for subpr in subprojects_list:
+        db.fuel_plus_mos_statistic.insert(
+            {"Milestone": "{0}".format(str(m).replace('.', '_')),
+             "Subproject": "{0}".format(subpr),
+             "done": fuel_plus_mos["{0}".format(str(m))]["{0}".format(subpr)]["done"],
+             "total": fuel_plus_mos["{0}".format(str(m))]["{0}".format(subpr)]["total"]}
+        )

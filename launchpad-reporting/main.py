@@ -66,6 +66,7 @@ def project_overview(project_name):
         milestones = db.milestones.find_one()["Milestone"]
 
         k = lpdata.statistic_by_milestone("5_1")
+        summary = lpdata.summary_by_milestone(k)
 
         return flask.render_template("project_fuelmos.html",
                                      milestones=milestones,
@@ -74,8 +75,8 @@ def project_overview(project_name):
                                      subprs=list(subprs),
                                      items=k,
                                      fuel_milestone_id=fuel_milestone_id["5_1"],
-                                     mos_milestone_id=mos_milestone_id["5_1"]
-                                     )
+                                     mos_milestone_id=mos_milestone_id["5_1"],
+                                     summary=summary)
 
     display = False
     project = lpdata.get_project(project_name)
@@ -103,6 +104,7 @@ def mos_project_overview(global_project_name, project_name):
 
         m = project_name.replace('.', '_')
         k = lpdata.statistic_by_milestone(m)
+        summary = lpdata.summary_by_milestone(k)
 
         return flask.render_template("project_fuelmos.html",
                                      milestones=milestones,
@@ -112,7 +114,8 @@ def mos_project_overview(global_project_name, project_name):
                                      db=db.milestone_tab.find(),
                                      items=k,
                                      fuel_milestone_id=fuel_milestone_id["{0}".format(m)],
-                                     mos_milestone_id=mos_milestone_id["{0}".format(m)])
+                                     mos_milestone_id=mos_milestone_id["{0}".format(m)],
+                                     summary=summary)
 
     project = lpdata.get_project(global_project_name)
     name = "{0}_{1}".format(global_project_name.lower(), project_name.lower())

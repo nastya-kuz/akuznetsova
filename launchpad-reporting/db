@@ -90,6 +90,7 @@ for m in milestones_list:
         summary = lpdata.bugs_ids(tag, m)
         fuel_plus_mos["{0}".format(str(m))]["{0}".format(subpr)]["done"] = summary["done"]
         fuel_plus_mos["{0}".format(str(m))]["{0}".format(subpr)]["total"] = summary["total"]
+        fuel_plus_mos["{0}".format(str(m))]["{0}".format(subpr)]["high"] = summary["high"]
 
 
 
@@ -150,5 +151,6 @@ for m in milestones_list:
             {"Milestone": "{0}".format(str(m).replace('.', '_')),
              "Subproject": "{0}".format(subpr),
              "done": fuel_plus_mos["{0}".format(str(m))]["{0}".format(subpr)]["done"],
-             "total": fuel_plus_mos["{0}".format(str(m))]["{0}".format(subpr)]["total"]}
+             "total": fuel_plus_mos["{0}".format(str(m))]["{0}".format(subpr)]["total"],
+             "high": fuel_plus_mos["{0}".format(str(m))]["{0}".format(subpr)]["high"]}
         )

@@ -28,9 +28,8 @@
                   {% for i in range(3) %}
                       <td>done</td>
                       <td>total</td>
-                      {% if i < 2 %}
-                          <td>high, critical<br>(not done)</td>
-                      {%endif%}
+                      <td>high, critical<br>(not done)</td>
+
                   {% endfor %}
               </tr>
         </tr>
@@ -46,6 +45,7 @@
                 <td><a href="https://bugs.launchpad.net/mos/+bugs?field.searchtext=&orderby=-importance&field.status%3Alist=NEW&field.status%3Alist=INVALID&field.status%3Alist=WONTFIX&field.status%3Alist=CONFIRMED&field.status%3Alist=TRIAGED&field.status%3Alist=INPROGRESS&field.status%3Alist=INCOMPLETE_WITH_RESPONSE&field.status%3Alist=INCOMPLETE_WITHOUT_RESPONSE&field.importance%3Alist=CRITICAL&field.importance%3Alist=HIGH&field.milestone%3Alist={{ mos_milestone_id }}&field.tag={{i}}&field.tags_combinator=ANY&search=Search">{{items[i]["mos"]["high"]}}</a></td>
                 <td>{{items[i]["fuel_mos"]["done"]}}</td>
                 <td>{{items[i]["fuel_mos"]["total"]}}</td>
+                <td>{{items[i]["fuel_mos"]["high"]}}</td>
             </tr>
         {% endfor %}
             <tr>
@@ -58,6 +58,7 @@
                 <td>{{ summary["mos_high"] }}</td>
                 <td><b>{{ summary["fuel_mos_done"] }}</b></td>
                 <td><b>{{ summary["fuel_mos_total"] }}</b></td>
+                <td><b>{{ summary["fuel_mos_high"] }}</b></td>
             </tr>
 
     </table>

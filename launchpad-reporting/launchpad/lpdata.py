@@ -45,7 +45,7 @@ class LaunchpadData():
         return Project(self._get_project(project_name))
 
     @ttl_cache(minutes=5)
-    def get_bugs(self, project_name, statuses, milestone_name = None, tags = None):
+    def get_bugs(self, project_name, statuses, milestone_name = None, tags = None, importance = None):
         project = self._get_project(project_name)
         if (milestone_name is None) or (milestone_name == 'None'):
             return [Bug(r) for r in project.searchTasks(status=statuses)]
@@ -54,7 +54,10 @@ class LaunchpadData():
         if (tags is None) or (tags == 'None'):
             return [Bug(r) for r in project.searchTasks(status=statuses, milestone=milestone)]
 
-        return [Bug(r) for r in project.searchTasks(status=statuses, milestone=milestone, tags=tags)]
+        if (importance is None) or (importance == 'None'):
+            return [Bug(r) for r in project.searchTasks(status=statuses, milestone=milestone, tags=tags)]
+
+        return [Bug(r) for r in project.searchTasks(importance=importance, status=statuses, milestone=milestone, tags=tags)]
 
     @staticmethod
     def dump_object(object):
@@ -174,7 +177,7 @@ class LaunchpadData():
         for pr in db.milestone_tab.find({},{ 'Subproject':1, 'high':1, 'total':1, 'done':1 }).\
             where('this.Milestone == "{0}" & this.Project == "mos"'.format(milestone)):
             mos.append(pr)
-        for  pr in db.fuel_plus_mos_statistic.find({},{ 'Subproject':1, 'total':1, 'done':1 }).\
+        for  pr in db.fuel_plus_mos_statistic.find({},{ 'Subproject':1, 'high':1, 'total':1, 'done':1 }).\
             where('this.Milestone == "{0}"'.format(milestone)):
             fuel_mos.append(pr)
 
@@ -199,7 +202,8 @@ class LaunchpadData():
                "mos_high": 0,
                "mos_total": 0,
                "fuel_mos_done": 0,
-               "fuel_mos_total": 0}
+               "fuel_mos_total": 0,
+               "fuel_mos_high": 0}
 
         for pr in k:
             sum["fuel_total"] += int(k[pr]["fuel"]["total"])
@@ -210,6 +214,7 @@ class LaunchpadData():
             sum["mos_done"] += int(k[pr]["mos"]["done"])
             sum["fuel_mos_done"] += int(k[pr]["fuel_mos"]["done"])
             sum["fuel_mos_total"] += int(k[pr]["fuel_mos"]["total"])
+            sum["fuel_mos_high"] += int(k[pr]["fuel_mos"]["high"])
 
         return sum
 
@@ -218,9 +223,9 @@ class LaunchpadData():
                                 "total": "",
                                 "high": ""}
 
-        def count(milestone, tag, bug_type):
-            bugs_fuel = self.get_bugs("fuel", self.BUG_STATUSES[bug_type], milestone, tag)
-            bugs_mos = self.get_bugs("mos", self.BUG_STATUSES[bug_type], milestone, tag)
+        def count(milestone, tag, bug_type, importance):
+            bugs_fuel = self.get_bugs("fuel", self.BUG_STATUSES[bug_type], milestone, tag, importance)
+            bugs_mos = self.get_bugs("mos", self.BUG_STATUSES[bug_type], milestone, tag, importance)
             ids = []
             for bug in bugs_fuel:
                 ids.append(bug.id)
@@ -229,7 +234,8 @@ class LaunchpadData():
 
             return len(list(set(ids)))
 
-        sum_without_duplicity["done"] = count(milestone, tag, "Closed")
-        sum_without_duplicity["total"] = count(milestone, tag, "All")
+        sum_without_duplicity["done"] = count(milestone, tag, "Closed", None)
+        sum_without_duplicity["total"] = count(milestone, tag, "All", None)
+        sum_without_duplicity["high"] = count(milestone, tag, "NotDone", ["Critical", "High"] )
 
         return sum_without_duplicity

@@ -21,7 +21,7 @@ class LaunchpadData():
                     "All":        ["New", "Incomplete", "Invalid", "Won't Fix",
                                    "Confirmed", "Triaged", "In Progress",
                                    "Fix Released", "Fix Committed"],
-                    "NotDone":    ["New", "Incomplete", "Invalid", "Won't Fix",
+                    "NotDone":    ["New", "Incomplete",
                                    "Confirmed", "Triaged", "In Progress"]}
     BUG_STATUSES_ALL = []
     for k in BUG_STATUSES:

@@ -3,7 +3,7 @@ from launchpad.lpdata import LaunchpadData
 
 lpdata = LaunchpadData()
 connection = pymongo.Connection()
-db = connection["bugs"]
+db = connection["bugs_temp_db"]
 
 # Objects storage
 milestones = db.milestones
@@ -154,3 +154,5 @@ for m in milestones_list:
              "total": fuel_plus_mos["{0}".format(str(m))]["{0}".format(subpr)]["total"],
              "high": fuel_plus_mos["{0}".format(str(m))]["{0}".format(subpr)]["high"]}
         )
+
+connection.copy_database("bugs_temp_db", "bugs")

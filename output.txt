@@ -1,0 +1,145 @@
+Bug #,Title,Milestone,Status,Importance,Assignee
+ 
+1413104,Large number of TIME_WAIT connections from haproxy cause stalled API service requests,6.1,Triaged,Critical,fuel-library
+1413690,[image based provisioning] SSH allows password authorization on image provisioned nodes,6.1,In Progress,Critical,a-gordeev
+1397312,hard coded fuel/kernel versions mapping in preseed,6.1,Triaged,Critical,fuel-library
+1413593,deployment  execution expired on BVT staging centos,6.1,In Progress,Critical,asilenkov
+1258347,[volumes-refactoring] Can't exclude a volume from the boot md (raid 1),6.1,Confirmed,High,fuel-python
+1278964,[library] DB grew large within 1 week, filled root filesystem,6.1,Triaged,High,kozhukalov
+1306792,[volumes-refactoring] Fuel Default Disk Partion Scheme is very sub-optimal,6.1,Confirmed,High,kozhukalov
+1371757,Deployment Fails when /var is Full. ,6.1,In Progress,High,pkaminski
+1372547,[nailgun][library] PCI-express SSD drives are not supported,6.1,Confirmed,High,kozhukalov
+1394864,default partitioning doing bad on small HDD/SSD/Other drives,6.1,Triaged,High,fuel-python
+1398817,When scale up, new computes should be disabled by default,6.1,Triaged,High,fuel-astute
+1399240,Unable to do live block-migration,6.1,Triaged,High,fuel-library
+1400355,Restore built-in OpenVSwitch kernel module for Centos,6.1,Confirmed,High,fuel-library
+1406286,cloud-init works unstable in Neutron GRE HA,6.1,Confirmed,High,fuel-library
+1410280,PXE doesn't working for HP DL380 with broadcom cards,6.1,Triaged,High,fuel-library
+1410333,Master node cannot be correctly installed from USB flash drives,6.1,Triaged,High,kozhukalov
+1410471,[image based provisioning] incorrect "device is busy" handling for non-RAID devices,6.1,In Progress,High,a-gordeev
+1410517,Deploying Cinder VMDK doesn't set up cinder-volume,6.1,Confirmed,High,xarses
+1261940,Node deploy should fail when network on node doesn't work,6.1,Triaged,High,fuel-library
+1405549,Keystone become extremely slow after controller shutdown,6.1,Triaged,High,fuel-library
+1313662,[library] Performance issue in Keystone: let's use httpd / apache,6.1,Triaged,High,fuel-library
+1318614,[provision] Set XFS partition size to default (4k),6.1,Confirmed,High,kozhukalov
+1333458,[library] Docker loads images very slow,6.1,Triaged,High,raytrac3r
+1343136,[astute] puppet logs without enabled "Openstack debug" non-informative.,6.1,Confirmed,High,vsharshov
+1343139,[upgrade] upgrade procedure should update agent/mc agent/network checker,6.1,Confirmed,High,fuel-python
+1347718,[library] Inappropriate status of cluster after restore in Fuel UI/cli and Openstack horizon/cli.,6.1,Confirmed,High,raytrac3r
+1348331,upgrade: new envs uses old kerlenl images during provisioning,6.1,Triaged,High,fuel-python
+1355180,rollback will fail - migration rollback is impossible - need to backup databases,6.1,Confirmed,High,ikalnitsky
+1364081,Packages versions issue after env 5.0 is upgraded to 5.1,6.1,In Progress,High,idv1985
+1365635,[library][patching] during patching failed resources are not migrated from the node,6.1,In Progress,High,idv1985
+1368514,OpenStack nodes lose DNS and NTP on Fuel master node outage,6.1,In Progress,High,omolchanov
+1368655,Virtual router is required,6.1,Triaged,High,omolchanov
+1371799,Ceilometer Mongo DB backend cannot failover,6.1,Confirmed,High,fuel-library
+1375683,Package for Ceph Nailgun plugin is needed,6.1,Confirmed,High,dkaiharodsev
+1378500,Network verification process is very long for 100 nodes,6.1,In Progress,High,loles
+1381059,Sometime CentOS node hangs on hw init,6.1,Confirmed,High,tzn
+1382511,Huge snapshot on the big env,6.1,Confirmed,High,fuel-python
+1383498,Provisioning should use chunks by default, similarly to deployment,6.1,Confirmed,High,fuel-astute
+1383748,Provisioning progress bar doesn't work if image based provisioning,6.1,In Progress,High,fuel-astute
+1384623,HTTP Error 504: Gateway Time-out during deploy 100 nodes cluster via API,6.1,Confirmed,High,ksambor
+1391244,New version of python-virtualenv needed,6.1,In Progress,High,sotpuschennikov
+1391553,[nailgun] Add tests to cover database migrations,6.1,Confirmed,High,fuel-python
+1392783,[statistics] info on incomplete tasks should not be sent to collector,6.1,Confirmed,High,alekseyk-ru
+1393148,nailgun-api log is too verbose,6.1,In Progress,High,ivankliuk
+1394137,Mysql backend readiness checks should rely on TCP connectivity instead of sockets,6.1,Triaged,High,sgolovatiuk
+1394487,Change compression algoritm for diagnostic snapshot,6.1,Confirmed,High,fuel-python
+1395052,/var/lib/cobbler/kickstarts/ is not copied on upgrade,6.1,Confirmed,High,fuel-python
+1395674,Change MAC representation in nailgun,6.1,In Progress,High,romcheg
+1395753,supervisord kills random processes,6.1,Confirmed,High,fuel
+1395836,"OSTF server is not available" after master node reboot.,6.1,Confirmed,High,fuel-library
+1396126,Deployment doesn't work without an active public gateway,6.1,Confirmed,High,fuel-python
+1396946,Rabbitmq OCF script requires additional criteria to be met for Master/Slave statuses,6.1,In Progress,High,bogdando
+1398026,Stop provisioning of HA cluster failed with Connection reset by peer - recvfrom(2),6.1,Confirmed,High,vsharshov
+1398486,Sahara don't manage by corosync/pacemaker in HA,6.1,In Progress,High,idv1985
+1398882,Support of inifinband interfaces is broken in Fuel web,6.1,Confirmed,High,fuel-python
+1399192,[nailgun] Unreadable traceback on 500 Internal Error,6.1,Confirmed,High,fuel-python
+1401477,keystone container reports ready too soon,6.1,In Progress,High,raytrac3r
+1401676,Deployment progress bar inaccurate,6.1,Triaged,High,vsharshov
+1401851,[VirtualBox]: Slave node cannot boot: Fatal: No bootable medium found. System halted,6.1,In Progress,High,sovsianikov
+1403088,CentOS repository contains ruby conflicts - unable to run yum update plainly,6.1,Triaged,High,fuel-library
+1403716,[Update] Incorrect value for 'auth_encryption_key' option in heat.conf file,6.1,Confirmed,High,fuel-library
+1405293,Neutron agents previous envs not cleaned up on migration,6.1,Confirmed,High,fuel-library
+1405407,Ceph deployment fails when Ceph is not enabled for storage and is enabled for ephemeral,6.1,Confirmed,High,smakar
+1405477,neutron-agent-dhcp takes excessive amount of time when you have a lot of networks,6.1,In Progress,High,sgolovatiuk
+1405661,[image-based] mellanox snippet has been missed,6.1,In Progress,High,a-gordeev
+1407634,astute fails to detect that the provisioning completed successfully,6.1,Confirmed,High,fuel-library
+1407675,Deployment of simple centos cluster failed with (/Stage[main]/Osnailyfacter::Cluster_simple/Nova_floating_range[10.108.31.128-10.108.31.254]) Could not evaluate: The server returned status 403,6.1,Triaged,High,fuel-library
+1407710,[nailgun] changing of env parameters is allowed for deployed env,6.1,Confirmed,High,fuel-python
+1409672,[astute] Stop deployment task fail with wrong number of argument  error,6.1,Confirmed,High,fuel-astute
+1409726,fuel-client unit tests require access to Nailgun API,6.1,New,High,fuel-python
+1409783,Swift-ring-builder balance is more than 100.00 after adding two new controllers to cluster,6.1,In Progress,High,adidenko
+1411152,Add plugins info into fuel-stats,6.1,Confirmed,High,fuel-python
+1411638,Add ability to pick up package dependencies from change requests,6.1,In Progress,High,asilenkov
+1411660,Deployment with Ceph multiroles has failed,6.1,Confirmed,High,fuel-library
+1411679,Incorrect role editing,6.1,Confirmed,High,jkirnosova
+1411710,Use python-fuelclient from external repository for building ISO,6.1,Confirmed,High,fuel-python
+1411732,GRE LACP - fragmentation packages on big size MTU,6.1,Confirmed,High,fuel-library
+1412446,Deployment of multi-node Ubuntu cluster with radosgw failed with (/Stage[main]/Ceph::Radosgw/A2mod[rewrite]) Could not evaluate: No ability to determine if a2mod exists ,6.1,Confirmed,High,fuel-library
+1412457,Openstack deployment fails, if RadosGW option was selected,6.1,Confirmed,High,fuel-library
+1412840,Fuel logs in with unencrypted credentials,6.1,Triaged,High,fuel-library
+1412855,Horizon logs in with unencrypted credentials,6.1,Triaged,High,fuel-library
+1413157,SimpleZabix installation failed with errors in puppet log,6.1,Confirmed,High,fuel-library
+1413207,Execution expired on non-primary controller,6.1,New,High,fuel-library
+1413246,"fuelmain_sha": "" is empty in api/version,6.1,New,High,fuel-python
+1413553,provisioning fails for old envs after upgrade due to ntp-dev,6.1,Triaged,High,fuel-python
+1413561,NTP servers list settings allow to specify any data,6.1,Triaged,High,fuel-python
+1321790,Anaconda fails with LVMError: lvactivate failed for nova,6.1,Triaged,High,adidenko
+1398400,nailgun/naily exchanges/queues declared with wrong attributes,6.1,Confirmed,High,fuel-python
+1376600,Prepare Corosync 2.3.3 RPM package,6.1,In Progress,High,asilenkov
+1381062,Create libqb >= 0.17.0 RPM package,6.1,Confirmed,High,fuel-osci  
+1373014,bootstrap kernel can't detect volumes on hardware RAID PERC H310,6.1,In Progress,Critical,asyriy
+1383641,Support Ubuntu 14.04 as a host OS,6.1,In Progress,Critical,asheplyakov
+1401261,qemu-img convert intermittently corrupts output images,6.1,Confirmed,Critical,asheplyakov
+1403096,Need to patch qemu-img in 6.1,6.1,Triaged,Critical,asheplyakov
+1359331,Add support for HP BL120/320 RAID controller line,6.1,Confirmed,High,asyriy
+1410223,noVNC doesn't work when offloaded to port 80 or 443,6.1,In Progress,High,amogylchenko
+1357129,ubuntu ha vcenter failed deployment,6.1,Confirmed,High,asyriy
+1390122,Random ethX interfaces are down when a node with Ubuntu restarts,6.1,Confirmed,High,mos-linux
+1401764,make iso fails and leaves around a mounted loop device ,6.1,Triaged,High,asheplyakov
+1403047,Vm-2-Vm over OVS iperf limited to 2.5 Gb,6.1,Confirmed,High,mos-linux
+1405516,new iproute2 package for CentOS and Ubuntu,6.1,Confirmed,High,amogylchenko
+1406310,image based provisioning fails due to attempt to remove a mounted LV,6.1,Confirmed,High,asheplyakov
+1412502,[Ubuntu 14.04] Deployment simple ceph cluster failed with Could not set 'present' on ensure: undefined method `grep' for #<String:0x00000004c98278> at 16:/etc/puppet/modules/ceph/manifests/ssh.pp,6.1,Confirmed,High,asheplyakov
+1336574,sudo 1.8.10 is required,6.1,In Progress,High,asheplyakov
+1375245,Cinder LVM over iSCSI driver under qemu 2.0 and kernel <3.11,6.1,In Progress,High,pboldin
+1378212,Prepare pacemaker >=1.1.12 RPM packages,6.1,Confirmed,High,amogylchenko
+1385079,astute erroneously decides that puppet on nodes has hung and aborts the deployment,6.1,Triaged,High,mos-linux
+1412585,Ceph 0.80.8,6.1,In Progress,High,amogylchenko
+1413135,Prepare crmsh >=2.1 RPM packages,6.1,Confirmed,High,mos-linux 
+1409661,novnc proxy fails with "Msg: Connect timeout" in 6.0,6.1,Confirmed,High,iudovichenko
+1359989,Hypervisor summary shows incorrect total storage,6.1,In Progress,High,snikitin
+1393505,ceilometer-agent-notification can't connect after rabbitmq restart,6.1,Confirmed,High,ityaptin
+1380649,deb/rpm for mistral package,6.1,Confirmed,High,iyozhikov
+1397279,keystone and python-ldappool packages,6.1,In Progress,High,myatsenko
+1399164,[fuel-library] Ceilometer's mongoDB is rapidly eating up partition space,6.1,In Progress,High,iberezovskiy
+1399272,Openstack operations finish with 502 error after failover, with errors on oslo.messaging,6.1,Confirmed,High,mos-oslo
+1400240,Swift notifications not obtained,6.1,Confirmed,High,iberezovskiy
+1402641,neutron openvswitch agent logs in master node are in no match,6.1,Confirmed,High,mos-neutron
+1412728,[Ubuntu 14.04] Instances and volumes aren't created on simple neutron cluster with Ubuntu 14.04,6.1,Confirmed,High,mos-neutron
+1352931,Lost connection to MySQL server at 'reading initial communication packet,6.1,Confirmed,High,mos-oslo
+1371130,Nova instance doesn't respond (ICMP/SSH/VNC) after live migration,6.1,Confirmed,High,mos-nova
+1389380,/tmp is not cleaned after image upload from horizon,6.1,Confirmed,High,vokhrimenko
+1393771,HA neutron environment  - there is no connectivity to the instance,6.1,Triaged,High,obondarev
+1399261,Auto security groups are not applied to new instances when scaling a cluster,6.1,Confirmed,High,mos-sahara
+1401118,Glance: can't upload image by link from slow source,6.1,Confirmed,High,ativelkov
+1401937,nova network on multihost does not delete bridges during deletion of networks,6.1,Confirmed,High,mos-neutron
+1401945,Cannot delete a cluster that is in "Error" status,6.1,Confirmed,High,mos-sahara
+1403107,Security group listing operation fails with timeout,6.1,Confirmed,High,shakhat
+1404983,heat-api hot spin,6.1,In Progress,High,rpodolyaka
+1405227,Neutron agents restart with unknown reason,6.1,Confirmed,High,shakhat
+1405549,Keystone become extremely slow after controller shutdown,6.1,Triaged,High,mos-keystone
+1408632,Rally tests with snapshots failed at Scale,6.1,In Progress,High,e0ne
+1410797,Port creation is slow due to reconnections in Rabbit,6.1,Confirmed,High,mos-oslo
+1412322, VPNaaS:pluto.pid already exists,6.1,In Progress,High,aepifanov
+1412772,RabbitMQ duplicates messages for Neutron L3 agent,6.1,Triaged,High,shakhat
+1401879,Database deadlocks in neutron-server logs,6.1,Confirmed,High,enikanorov 
+1308990,Adding MongoDB nodes,6.1,In Progress,High,dreidellhasa
+1398425,Update time sync in devops script,6.1,Triaged,High,ykotko
+1398978,mlnx-ofed-light deb fails to install: can't find dependency linux-headers,6.1,Confirmed,High,gilmeir-d
+1403090,Test for repo management,6.1,Confirmed,High,fuel-qa
+1412443,[Ubuntu 14.04] Provisioning of Ubuntu 14.04 stucked on modal window asking for partitions,6.1,In Progress,High,asledzinskiy
+1413253,Fuel 6.1 upgrade tarball should be based on 6.0, not on 5.1.1,6.1,In Progress,High,afedorova
+1413937,CSV exporter web application for fuel-stats,6.1,New,High,fuel-dev
